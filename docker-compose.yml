@@ -1,0 +1,23 @@
+  version: "3.7"
+  services:
+    setup:
+      build:
+        context: setup/
+      volumes:
+        - type: volume
+          source: artifact
+          target: /tmp/trgt
+
+    app:
+      image: tomcat:9.0.71-jdk11-temurin-focal
+      volumes:
+        - type: volume
+          source: artifact
+          target: /usr/local/tomcat/webapps
+      ports:
+        - 8060:80
+      depends_on:
+        - setup
+
+  volumes:
+    artifact:
